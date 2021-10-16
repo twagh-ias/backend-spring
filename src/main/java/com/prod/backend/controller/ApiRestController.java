@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/toolkit/")
 public class ApiRestController {
@@ -30,6 +32,11 @@ public class ApiRestController {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
+
+    @GetMapping("/home")
+    public List<Emp> getAll(){
+        return employeeService.findAllEmp();
+    }
 
     @GetMapping("/home/{id}")
     public Emp getEmp(@PathVariable int id){

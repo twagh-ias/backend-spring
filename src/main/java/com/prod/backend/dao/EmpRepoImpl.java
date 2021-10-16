@@ -1,9 +1,13 @@
 package com.prod.backend.dao;
 
 import com.prod.backend.model.Emp;
+import com.prod.backend.model.UserSkill;
+import com.prod.backend.rowmapper.EmpMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class EmpRepoImpl implements EmpRepo {
@@ -16,6 +20,8 @@ public class EmpRepoImpl implements EmpRepo {
 
 //    private static final String get_emp_query1="select e.email, e.employee_name, s.p_skills, s.a_skills, s.aspired_skills" +
 //            " from toolkit.employee e join toolkit.user_skills s on e.e_id = s.e_id";
+
+    private static final String get_emp_all="select * from employee";
 
     @Override
     public Emp getById(int e_id) {
@@ -37,4 +43,9 @@ public class EmpRepoImpl implements EmpRepo {
                 });
     }
 
+    @Override
+    public List<Emp> findAllEmp(){
+        List<Emp> empall=jdbcTemplate.query(get_emp_all,new EmpMapper());;
+        return empall;
+    }
 }

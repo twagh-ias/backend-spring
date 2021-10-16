@@ -1,5 +1,11 @@
 package com.prod.backend.model;
 
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.JoinTable;
+import java.util.HashSet;
+import java.util.Set;
+
 public class Emp {
 
     private  String e_id;
@@ -23,6 +29,18 @@ public class Emp {
     private String team;
     private String email;
 
+    @JoinTable(name="user_skills",
+    joinColumns = @JoinColumn(name="e_id"),
+    inverseJoinColumns = @JoinColumn(name="e_id"))
+    private Set<UserSkill> skills=new HashSet<>();
+
+    public Set<UserSkill> getSkills() {
+        return skills;
+    }
+
+    public void setSkills(Set<UserSkill> skills) {
+        this.skills = skills;
+    }
 
     public String getEmployee_name() {
         return employee_name;
