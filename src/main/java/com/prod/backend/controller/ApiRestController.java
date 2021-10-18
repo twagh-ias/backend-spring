@@ -38,6 +38,11 @@ public class ApiRestController {
         return employeeService.findAllEmp();
     }
 
+    @GetMapping("/home2")
+    public List<UserSkill> getAllSkills(){
+        return userSkillService.findAllSkills();
+    }
+
     @GetMapping("/home/{id}")
     public Emp getEmp(@PathVariable int id){
         return employeeService.getById(id);
