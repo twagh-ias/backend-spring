@@ -10,6 +10,7 @@ public class EmpMapper implements RowMapper<Emp> {
     @Override
     public Emp mapRow(ResultSet rs, int rowNum) throws SQLException {
         Emp e = new Emp();
+        e.setE_id(rs.getString("e_id"));
         e.setEmployee_name(rs.getString("employee_name"));
         e.setEmail(rs.getString("email"));
         e.setDepartment(rs.getString("department"));

@@ -27,4 +27,17 @@ public class EmployeeServiceImpl implements EmployeeService{
         return empRepo.findAllEmp();
     }
 
+    @Override
+    public void save(Emp emp) {
+         empRepo.save(emp);
+    }
+
+    public boolean deleteEmp(long id){
+       return empRepo.delete(id);
+    }
+
+    public void update(Emp emp,long e_id){
+        empRepo.update(emp, e_id);
+    }
+
 }

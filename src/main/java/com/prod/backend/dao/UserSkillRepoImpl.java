@@ -35,4 +35,10 @@ public class UserSkillRepoImpl implements UserSkillRepo {
         List<UserSkill> skills_all=jdbcTemplate.query(get_all_skills,new UserSkillMapper());;
         return skills_all;
     }
+
+    @Override
+    public boolean deleteUserSkill(long e_id) {
+        String delete_query = "delete from user_skills where e_id = ?";
+        return jdbcTemplate.update(delete_query, new Object[]{e_id}) > 0;
+    }
 }

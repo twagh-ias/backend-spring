@@ -8,10 +8,7 @@ import com.prod.backend.service.EmployeeService;
 import com.prod.backend.service.UserSkillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -51,5 +48,25 @@ public class ApiRestController {
     @GetMapping("/home2/{id}")
     public UserSkill getUserSkill(@PathVariable int id){
         return userSkillService.getById(id);
+    }
+
+    @PostMapping("/addEmp")
+    public void addEmployee(Emp emp){
+        employeeService.save(emp);
+    }
+
+    @DeleteMapping("/deleteEmp/{id}")
+    public void deleteEmp(@PathVariable int id){
+        employeeService.deleteEmp(id);
+    }
+
+    @DeleteMapping("/deleteUserSkill/{id}")
+    public void deleteUserSkill(@PathVariable int id){
+        userSkillService.deleteUserSkill(id);
+    }
+
+    @PutMapping("/updateEmp/{id}")
+    public void updateEmp(Emp emp, @PathVariable long id){
+        employeeService.update(emp,id);
     }
 }

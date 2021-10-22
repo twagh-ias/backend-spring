@@ -8,4 +8,10 @@ public interface EmpRepo {
     Emp getById(int e_id);
 
     public List<Emp> findAllEmp();
+
+    public void save(Emp emp);
+
+    public boolean delete(long id);
+
+    public int update(Emp emp,long e_id);
 }

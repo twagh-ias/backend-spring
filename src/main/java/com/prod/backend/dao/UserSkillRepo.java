@@ -9,4 +9,6 @@ public interface UserSkillRepo {
     UserSkill getById(int e_id);
 
     public List<UserSkill> findAllSkills();
+
+    public boolean deleteUserSkill(long id);
 }

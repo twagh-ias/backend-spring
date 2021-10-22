@@ -29,18 +29,18 @@ public class Emp {
     private String team;
     private String email;
 
-    @JoinTable(name="user_skills",
-    joinColumns = @JoinColumn(name="e_id"),
-    inverseJoinColumns = @JoinColumn(name="e_id"))
-    private Set<UserSkill> skills=new HashSet<>();
-
-    public Set<UserSkill> getSkills() {
-        return skills;
-    }
-
-    public void setSkills(Set<UserSkill> skills) {
-        this.skills = skills;
-    }
+//    @JoinTable(name="user_skills",
+//    joinColumns = @JoinColumn(name="e_id"),
+//    inverseJoinColumns = @JoinColumn(name="e_id"))
+//    private Set<UserSkill> skills=new HashSet<>();
+//
+//    public Set<UserSkill> getSkills() {
+//        return skills;
+//    }
+//
+//    public void setSkills(Set<UserSkill> skills) {
+//        this.skills = skills;
+//    }
 
     public String getEmployee_name() {
         return employee_name;
