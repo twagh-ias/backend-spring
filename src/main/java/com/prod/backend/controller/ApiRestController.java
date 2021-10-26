@@ -60,7 +60,7 @@ public class ApiRestController {
         employeeService.deleteEmp(id);
     }
 
-    @DeleteMapping("/deleteUserSkill/{id}")
+    @DeleteMapping("/deleteUserSkills/{id}")
     public void deleteUserSkill(@PathVariable int id){
         userSkillService.deleteUserSkill(id);
     }

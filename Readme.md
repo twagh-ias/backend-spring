@@ -18,3 +18,6 @@ http://localhost:8080/toolkit/deleteEmp/{id}
 
 #update an employee's details
 http://localhost:8080/toolkit/updateEmp/{id}
+
+#delete (all)skills for a user
+http://localhost:8080/toolkit/deleteUserSkills/{id}

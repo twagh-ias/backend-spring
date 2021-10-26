@@ -1,13 +1,14 @@
 package com.prod.backend.model;
 
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.JoinTable;
-import java.util.HashSet;
-import java.util.Set;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.NotBlank;
 
 public class Emp {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private  String e_id;
 
     public String getE_id() {
@@ -18,15 +19,26 @@ public class Emp {
         this.e_id = e_id;
     }
 
+    @NotBlank(message = "Name cannot be blank!")
     private String employee_name;
+
     private String department;
+
     private String org_level;
+
     private String certifications;
+
     private String projects;
+
     private String total_exp;
+
     private String ad_tech_exp;
+
     private String slack_time;
+
     private String team;
+
+    @NotBlank(message = "Email cannot be blank!")
     private String email;
 
 //    @JoinTable(name="user_skills",

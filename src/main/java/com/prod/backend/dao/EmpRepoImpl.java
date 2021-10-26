@@ -53,8 +53,10 @@ public class EmpRepoImpl implements EmpRepo {
 
     @Override
     public void save(Emp emp) {
+        int[] types = {Types.VARCHAR, Types.VARCHAR, Types.VARCHAR,Types.VARCHAR, Types.VARCHAR, Types.VARCHAR};
+        Object[] args={emp.getEmployee_name(),emp.getEmail(),emp.getTotal_exp(),emp.getAd_tech_exp(),emp.getSlack_time(),emp.getCertifications()};
 
-        jdbcTemplate.update(insert_query,emp.getEmployee_name(),emp.getEmail(),emp.getTotal_exp(),emp.getAd_tech_exp(),emp.getSlack_time(),emp.getCertifications());
+          jdbcTemplate.update(insert_query,args,types);
     }
 
     @Override
