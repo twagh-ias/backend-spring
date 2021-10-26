@@ -60,13 +60,23 @@ public class ApiRestController {
         employeeService.deleteEmp(id);
     }
 
-    @DeleteMapping("/deleteUserSkills/{id}")
-    public void deleteUserSkill(@PathVariable int id){
-        userSkillService.deleteUserSkill(id);
-    }
-
     @PutMapping("/updateEmp/{id}")
     public void updateEmp(Emp emp, @PathVariable long id){
         employeeService.update(emp,id);
+    }
+
+    @PostMapping("/addUserSkills")
+    public void addUserSkills(UserSkill userSkill){
+        userSkillService.insertUserSkill(userSkill);
+    }
+
+    @PutMapping("updateUserSkills/{id}")
+    public void updateUserSkills(UserSkill userSkill, @PathVariable long id){
+        userSkillService.update(userSkill,id);
+    }
+
+    @DeleteMapping("/deleteUserSkills/{id}")
+    public void deleteUserSkill(@PathVariable int id){
+        userSkillService.deleteUserSkill(id);
     }
 }

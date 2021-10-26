@@ -1,6 +1,7 @@
 package com.prod.backend.dao;
 
 
+import com.prod.backend.model.Emp;
 import com.prod.backend.model.UserSkill;
 
 import java.util.List;
@@ -8,7 +9,11 @@ import java.util.List;
 public interface UserSkillRepo {
     UserSkill getById(int e_id);
 
-    public List<UserSkill> findAllSkills();
+    List<UserSkill> findAllSkills();
 
-    public boolean deleteUserSkill(long id);
+    boolean deleteUserSkill(long id);
+
+    void insertUserSkill(UserSkill userSkill);
+
+    int update(UserSkill userSkill,long e_id);
 }

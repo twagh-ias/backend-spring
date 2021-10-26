@@ -6,6 +6,33 @@ public class UserSkill {
     private String p_proficiency_level;
     private String a_skills;
     private String a_proficiency_level;
+    private String aspired_skills;
+    private String a_self_rating;
+    private String p_self_rating;
+
+    public String getAspired_skills() {
+        return aspired_skills;
+    }
+
+    public void setAspired_skills(String aspired_skills) {
+        this.aspired_skills = aspired_skills;
+    }
+
+    public String getA_self_rating() {
+        return a_self_rating;
+    }
+
+    public void setA_self_rating(String a_self_rating) {
+        this.a_self_rating = a_self_rating;
+    }
+
+    public String getP_self_rating() {
+        return p_self_rating;
+    }
+
+    public void setP_self_rating(String p_self_rating) {
+        this.p_self_rating = p_self_rating;
+    }
 
     public String getP_skills() {
         return p_skills;
