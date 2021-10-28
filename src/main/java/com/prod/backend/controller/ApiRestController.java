@@ -2,6 +2,7 @@ package com.prod.backend.controller;
 
 import com.prod.backend.dao.EmpRepo;
 import com.prod.backend.dao.UserSkillRepo;
+import com.prod.backend.exception.ResourceNotFound;
 import com.prod.backend.model.Emp;
 import com.prod.backend.model.UserSkill;
 import com.prod.backend.service.EmployeeService;
@@ -20,6 +21,9 @@ public class ApiRestController {
 
     @Autowired
     EmpRepo empRepo;
+
+    @Autowired
+    Emp emp;
 
     @Autowired
     UserSkillService userSkillService;
