@@ -2,28 +2,31 @@ package com.prod.backend.controller;
 
 import com.prod.backend.dao.EmpRepo;
 import com.prod.backend.dao.UserSkillRepo;
-import com.prod.backend.exception.ResourceNotFound;
 import com.prod.backend.model.Emp;
 import com.prod.backend.model.UserSkill;
 import com.prod.backend.service.EmployeeService;
 import com.prod.backend.service.UserSkillService;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/toolkit/")
-public class ApiRestController {
+@CrossOrigin("http://localhost:3000/")
+public class ApiRestController{
     @Autowired
     EmployeeService employeeService;
 
     @Autowired
     EmpRepo empRepo;
-
-    @Autowired
-    Emp emp;
 
     @Autowired
     UserSkillService userSkillService;
@@ -33,6 +36,12 @@ public class ApiRestController {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
+
+    @ResponseBody
+    @ExceptionHandler(HttpMediaTypeNotAcceptableException.class)
+    public String handleHttpMediaTypeNotAcceptableException() {
+        return "acceptable MIME type:" + MediaType.APPLICATION_JSON_VALUE;
+    }
 
     @GetMapping("/home")
     public List<Emp> getAll(){
@@ -52,6 +61,42 @@ public class ApiRestController {
     @GetMapping("/home2/{id}")
     public UserSkill getUserSkill(@PathVariable int id){
         return userSkillService.getById(id);
+    }
+
+    @GetMapping(value = "/home3/{id}",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<JSONObject> getAllDetails(@PathVariable int id){
+        Emp e=employeeService.getById(id);
+        UserSkill u=userSkillService.getById(id);
+        JSONObject jsonobj=new JSONObject();
+        try {
+            jsonobj.put("employee",e);
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        try {
+            jsonobj.put("skills",u);
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        return new ResponseEntity<JSONObject>(jsonobj,HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/home4/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody JSONObject getAllDetails1(@PathVariable int id){
+        Emp e=employeeService.getById(id);
+        UserSkill u=userSkillService.getById(id);
+        JSONObject jsonobj=new JSONObject();
+        try {
+            jsonobj.put("employee",e);
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        try {
+            jsonobj.put("skills",u);
+        } catch (JSONException ex) {
+            ex.printStackTrace();
+        }
+        return jsonobj;
     }
 
     @PostMapping("/addEmp")
