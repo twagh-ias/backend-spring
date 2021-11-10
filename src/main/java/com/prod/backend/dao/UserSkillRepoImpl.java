@@ -1,10 +1,7 @@
 package com.prod.backend.dao;
 
-import com.prod.backend.model.Emp;
 import com.prod.backend.model.UserSkill;
-import com.prod.backend.rowmapper.EmpMapper;
 import com.prod.backend.rowmapper.UserSkillMapper;
-import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -18,7 +15,7 @@ public class UserSkillRepoImpl implements UserSkillRepo {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    private static final String get_user_skill_query="SELECT e_id, p_skills, p_proficiency_level, a_skills, a_proficiency_level" +
+    private static final String get_user_skill_query="SELECT e_id, employee_name, p_skills, p_proficiency_level, p_self_rating, p_manager_rating, p_rating_delta, a_skills, a_proficiency_level" +
             " from user_skills where e_id=?";
 
     //select e.e_id, e.employee_name, s.p_skills, s.a_skills, s.aspired_skills from toolkit.employee e join toolkit.user_skills s on e.e_id = s.e_id;

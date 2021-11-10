@@ -22,7 +22,6 @@ public class DatabaseConfig {
 				.addScript("user.sql").addScript("user-role.sql").build();
 		return db;
 	}*/
-
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
