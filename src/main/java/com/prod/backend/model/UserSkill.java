@@ -13,6 +13,8 @@ public class UserSkill {
     private String p_manager_rating;
     private String employee_name;
 
+
+
     public String getP_rating_delta() {
         return p_rating_delta;
     }

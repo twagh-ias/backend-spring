@@ -18,6 +18,7 @@ public class UserSkillMapper implements RowMapper<UserSkill> {
         u.setP_manager_rating(rs.getString("p_manager_rating"));
         u.setP_rating_delta(rs.getString("p_rating_delta"));
         u.setA_skills(rs.getString("a_skills"));
+        u.setA_self_rating(rs.getString("a_self_rating"));
         u.setA_proficiency_level(rs.getString("a_proficiency_level"));
         return u;
     }
