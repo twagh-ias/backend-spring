@@ -20,6 +20,8 @@ public class EmpMapper implements RowMapper<Emp> {
         e.setAd_tech_exp(rs.getString("ad_tech_exp"));
         e.setSlack_time(rs.getString("slack_time"));
         e.setCertifications(rs.getString("certifications"));
+        e.setRole(rs.getString("role"));
+        e.setProjects(rs.getString("projects"));
         return e;
     }
 
