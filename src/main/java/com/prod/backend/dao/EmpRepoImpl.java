@@ -15,7 +15,7 @@ public class EmpRepoImpl implements EmpRepo {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private static final String get_emp_query="SELECT employee_name,email,department,org_level,team,total_exp," +
+    private static final String get_emp_query="SELECT employee_name,team,designation,role,email,org_level,projects,department,total_exp," +
             "ad_tech_exp,slack_time,certifications from employee where e_id=?";
 
 //    private static final String get_emp_query1="select e.email, e.employee_name, s.p_skills, s.a_skills, s.aspired_skills" +
@@ -53,8 +53,8 @@ public class EmpRepoImpl implements EmpRepo {
 
     @Override
     public void save(Emp emp) {
-        int[] types = {Types.VARCHAR, Types.VARCHAR, Types.VARCHAR,Types.VARCHAR, Types.VARCHAR, Types.VARCHAR};
-        Object[] args={emp.getEmployee_name(),emp.getEmail(),emp.getTotal_exp(),emp.getAd_tech_exp(),emp.getSlack_time(),emp.getCertifications()};
+        int[] types = {Types.VARCHAR, Types.VARCHAR, Types.VARCHAR,Types.VARCHAR, Types.VARCHAR, Types.VARCHAR,Types.VARCHAR, Types.VARCHAR, Types.VARCHAR,Types.VARCHAR, Types.VARCHAR, Types.VARCHAR};
+        Object[] args={emp.getEmployee_name(),emp.getTeam(),emp.getDesignation(),emp.getRole(),emp.getEmail(),emp.getOrg_level(),emp.getProjects(),emp.getDepartment(),emp.getTotal_exp(),emp.getAd_tech_exp(),emp.getSlack_time(),emp.getCertifications()};
 
           jdbcTemplate.update(insert_query,args,types);
     }
@@ -71,8 +71,6 @@ public class EmpRepoImpl implements EmpRepo {
                 "slack_time = ?,certifications = ? where e_id = ?";
         Object[] params = {emp.getEmployee_name(),emp.getEmail(),emp.getTotal_exp(),emp.getAd_tech_exp(),emp.getSlack_time(),emp.getCertifications(),e_id};
         int[] types = {Types.VARCHAR, Types.VARCHAR, Types.VARCHAR,Types.VARCHAR, Types.VARCHAR, Types.VARCHAR,Types.LONGVARCHAR};
-//        int rows = template.update(UpdateDemo.QUERY, params, types);
-//        System.out.println(rows + " row(s) updated.");
         return jdbcTemplate.update(update_query,params,types);
     }
 }

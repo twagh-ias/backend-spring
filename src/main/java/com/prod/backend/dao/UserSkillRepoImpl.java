@@ -1,5 +1,4 @@
 package com.prod.backend.dao;
-
 import com.prod.backend.model.UserSkill;
 import com.prod.backend.rowmapper.UserSkillMapper;
 import org.springframework.beans.factory.annotation.Autowired;

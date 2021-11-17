@@ -24,6 +24,10 @@ public class Emp {
 
     private String department;
 
+    private String designation;
+
+    private String role;
+
     private String org_level;
 
     private String certifications;
@@ -41,18 +45,21 @@ public class Emp {
     @NotBlank(message = "Email cannot be blank!")
     private String email;
 
-//    @JoinTable(name="user_skills",
-//    joinColumns = @JoinColumn(name="e_id"),
-//    inverseJoinColumns = @JoinColumn(name="e_id"))
-//    private Set<UserSkill> skills=new HashSet<>();
-//
-//    public Set<UserSkill> getSkills() {
-//        return skills;
-//    }
-//
-//    public void setSkills(Set<UserSkill> skills) {
-//        this.skills = skills;
-//    }
+    public String getDesignation() {
+        return designation;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
+    public void setDesignation(String designation) {
+        this.designation = designation;
+    }
 
     public String getEmployee_name() {
         return employee_name;
