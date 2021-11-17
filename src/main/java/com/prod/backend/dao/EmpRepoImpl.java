@@ -15,7 +15,7 @@ public class EmpRepoImpl implements EmpRepo {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private static final String get_emp_query="SELECT employee_name,team,designation,role,email,org_level,projects,department,total_exp," +
+    private static final String get_emp_query="SELECT employee_name,email,department,org_level,team,total_exp," +
             "ad_tech_exp,slack_time,certifications from employee where e_id=?";
 
 //    private static final String get_emp_query1="select e.email, e.employee_name, s.p_skills, s.a_skills, s.aspired_skills" +
@@ -23,7 +23,7 @@ public class EmpRepoImpl implements EmpRepo {
 
     private static final String get_emp_all="select * from employee";
 
-    private static final String insert_query="insert into employee(employee_name,email,total_exp,ad_tech_exp,slack_time,certifications) values(?,?,?,?,?,?)";
+    private static final String insert_query="insert into employee(employee_name,team,designation,role,email,org_level,projects,department,total_exp,ad_tech_exp,slack_time,certifications) values(?,?,?,?,?,?,?,?,?,?,?,?)";
 
     @Override
     public Emp getById(int e_id) {
@@ -68,9 +68,9 @@ public class EmpRepoImpl implements EmpRepo {
     @Override
     public int update(Emp emp,long e_id) {
         String update_query = "update employee set employee_name = ?, email = ?,total_exp = ?,ad_tech_exp = ?," +
-                "slack_time = ?,certifications = ? where e_id = ?";
-        Object[] params = {emp.getEmployee_name(),emp.getEmail(),emp.getTotal_exp(),emp.getAd_tech_exp(),emp.getSlack_time(),emp.getCertifications(),e_id};
-        int[] types = {Types.VARCHAR, Types.VARCHAR, Types.VARCHAR,Types.VARCHAR, Types.VARCHAR, Types.VARCHAR,Types.LONGVARCHAR};
+                "slack_time = ?,certifications = ?,team = ?, designation = ?, role = ?, org_level=?,projects=?,department=? where e_id = ?";
+        Object[] params = {emp.getEmployee_name(),emp.getEmail(),emp.getTotal_exp(),emp.getAd_tech_exp(),emp.getSlack_time(),emp.getCertifications(),emp.getTeam(),emp.getDesignation(),emp.getRole(),emp.getOrg_level(),emp.getProjects(),emp.getDepartment(),e_id};
+        int[] types = {Types.VARCHAR, Types.VARCHAR, Types.VARCHAR,Types.VARCHAR, Types.VARCHAR, Types.VARCHAR,Types.VARCHAR, Types.VARCHAR, Types.VARCHAR,Types.VARCHAR, Types.VARCHAR, Types.VARCHAR,Types.LONGVARCHAR};
         return jdbcTemplate.update(update_query,params,types);
     }
 }
