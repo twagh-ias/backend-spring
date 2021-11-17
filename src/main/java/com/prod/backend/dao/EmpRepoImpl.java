@@ -16,7 +16,7 @@ public class EmpRepoImpl implements EmpRepo {
     private JdbcTemplate jdbcTemplate;
 
     private static final String get_emp_query="SELECT employee_name,email,department,org_level,team,total_exp," +
-            "ad_tech_exp,slack_time,certifications from employee where e_id=?";
+            "ad_tech_exp,slack_time,certifications,role,projects from employee where e_id=?";
 
 //    private static final String get_emp_query1="select e.email, e.employee_name, s.p_skills, s.a_skills, s.aspired_skills" +
 //            " from toolkit.employee e join toolkit.user_skills s on e.e_id = s.e_id";
@@ -40,6 +40,8 @@ public class EmpRepoImpl implements EmpRepo {
                     e.setAd_tech_exp(rs.getString("ad_tech_exp"));
                     e.setSlack_time(rs.getString("slack_time"));
                     e.setCertifications(rs.getString("certifications"));
+                    e.setRole(rs.getString("role"));
+                    e.setProjects(rs.getString("projects"));
 
                     return e;
                 });
