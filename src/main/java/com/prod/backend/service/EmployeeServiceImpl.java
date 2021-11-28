@@ -32,8 +32,8 @@ public class EmployeeServiceImpl implements EmployeeService{
          empRepo.save(emp);
     }
 
-    public boolean deleteEmp(long id){
-       return empRepo.delete(id);
+    public void deleteEmp(long id){
+       empRepo.delete(id);
     }
 
     public void update(Emp emp,long e_id){

@@ -20,6 +20,7 @@ public class UserSkillMapper implements RowMapper<UserSkill> {
         u.setA_skills(rs.getString("a_skills"));
         u.setA_self_rating(rs.getString("a_self_rating"));
         u.setA_proficiency_level(rs.getString("a_proficiency_level"));
+        u.setComments(rs.getString("comments"));
         return u;
     }
 }

@@ -15,6 +15,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.constraints.Null;
 import java.util.List;
 
 @RestController
@@ -106,6 +107,11 @@ public class ApiRestController{
     @DeleteMapping("/deleteEmp/{id}")
     public void deleteEmp(@PathVariable int id){
         employeeService.deleteEmp(id);
+//        if (id == Integer.parseInt(null)) {
+//            new ResponseEntity<String>("User doesn't exist", HttpStatus.CONFLICT);
+//        } else {
+//            new ResponseEntity<String>("User successfully deleted", HttpStatus.OK);
+//
     }
 
     @PutMapping("/updateEmp/{id}")

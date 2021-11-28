@@ -3,6 +3,8 @@ package com.prod.backend.dao;
 import com.prod.backend.model.Emp;
 import com.prod.backend.rowmapper.EmpMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -18,19 +20,15 @@ public class EmpRepoImpl implements EmpRepo {
     private static final String get_emp_query="SELECT employee_name,email,department,org_level,team,total_exp," +
             "ad_tech_exp,slack_time,certifications,role,projects from employee where e_id=?";
 
-    private static final String get_team_details="select a.* \n" +
-            "from articles a \n" +
-            "where a.article_title = (select article_title \n" +
-            "                         from articles \n" +
-            "                         where article_title = a.article_title \n" +
-            "                         AND a.id <> articles.id); ";
-
-//    private static final String get_emp_query1="select e.email, e.employee_name, s.p_skills, s.a_skills, s.aspired_skills" +
-//            " from toolkit.employee e join toolkit.user_skills s on e.e_id = s.e_id";
-
     private static final String get_emp_all="select * from employee";
 
     private static final String insert_query="insert into employee(employee_name,team,designation,role,email,org_level,projects,department,total_exp,ad_tech_exp,slack_time,certifications) values(?,?,?,?,?,?,?,?,?,?,?,?)";
+
+    private static final String update_query = "update employee set employee_name = ?, email = ?,total_exp = ?,ad_tech_exp = ?," +
+            "slack_time = ?,certifications = ?,team = ?, designation = ?, role = ?, org_level=?,projects=?,department=? where e_id = ?";
+
+    private static final String delete_skill_query="delete from user_skills where e_id=?";
+    private static final String delete_emp_query = "delete from employee where e_id = ?";
 
     @Override
     public Emp getById(int e_id) {
@@ -49,7 +47,6 @@ public class EmpRepoImpl implements EmpRepo {
                     e.setCertifications(rs.getString("certifications"));
                     e.setRole(rs.getString("role"));
                     e.setProjects(rs.getString("projects"));
-
                     return e;
                 });
     }
@@ -68,16 +65,30 @@ public class EmpRepoImpl implements EmpRepo {
           jdbcTemplate.update(insert_query,args,types);
     }
 
+//    @Override
+//    public boolean delete(long e_id) {
+//
+//
+//        return jdbcTemplate.update(delete_emp_query, new Object[]{e_id}) > 0;
+//    }
     @Override
-    public boolean delete(long e_id) {
-        String delete_query = "delete from employee where e_id = ?";
-        return jdbcTemplate.update(delete_query, new Object[]{e_id}) > 0;
+    public void delete(long e_id) {
+
+        boolean b = jdbcTemplate.update(delete_skill_query, new Object[]{e_id}) > 0;
+        boolean c= jdbcTemplate.update(delete_emp_query, new Object[]{e_id}) > 0;
+        if(b= Boolean.parseBoolean(null))
+        {
+            new ResponseEntity<String>("User doesn't exist", HttpStatus.OK);
+        }
+        else
+        {
+            new ResponseEntity<String>("User successfully deleted", HttpStatus.CONFLICT);
+        }
+
     }
 
     @Override
     public int update(Emp emp,long e_id) {
-        String update_query = "update employee set employee_name = ?, email = ?,total_exp = ?,ad_tech_exp = ?," +
-                "slack_time = ?,certifications = ?,team = ?, designation = ?, role = ?, org_level=?,projects=?,department=? where e_id = ?";
         Object[] params = {emp.getEmployee_name(),emp.getEmail(),emp.getTotal_exp(),emp.getAd_tech_exp(),emp.getSlack_time(),emp.getCertifications(),emp.getTeam(),emp.getDesignation(),emp.getRole(),emp.getOrg_level(),emp.getProjects(),emp.getDepartment(),e_id};
         int[] types = {Types.VARCHAR, Types.VARCHAR, Types.VARCHAR,Types.VARCHAR, Types.VARCHAR, Types.VARCHAR,Types.VARCHAR, Types.VARCHAR, Types.VARCHAR,Types.VARCHAR, Types.VARCHAR, Types.VARCHAR,Types.LONGVARCHAR};
         return jdbcTemplate.update(update_query,params,types);

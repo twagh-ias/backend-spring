@@ -11,7 +11,7 @@ public interface EmployeeService {
 
     public void save(Emp emp);
 
-    public boolean deleteEmp(long id);
+    public void deleteEmp(long id);
 
     public void update(Emp emp,long e_id);
 }

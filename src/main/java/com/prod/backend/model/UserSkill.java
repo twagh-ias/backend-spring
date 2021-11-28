@@ -12,6 +12,15 @@ public class UserSkill {
     private String p_rating_delta;
     private String p_manager_rating;
     private String employee_name;
+    private String comments;
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
 
     public String getP_rating_delta() {
         return p_rating_delta;
