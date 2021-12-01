@@ -124,7 +124,7 @@ public class ApiRestController{
         userSkillService.insertUserSkill(userSkill);
     }
 
-    @PutMapping("updateUserSkills/{id}")
+    @PutMapping("/updateUserSkills/{id}")
     public void updateUserSkills(UserSkill userSkill, @PathVariable long id){
         userSkillService.update(userSkill,id);
     }

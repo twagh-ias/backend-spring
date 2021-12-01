@@ -4,6 +4,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Emp {
 
@@ -30,7 +32,11 @@ public class Emp {
 
     private String org_level;
 
-    private String certifications;
+//    private String certifications;
+
+    private List<String> certifications;
+
+//    private ArrayList<String> certifications;
 
     private String projects;
 
@@ -48,6 +54,23 @@ public class Emp {
     public String getDesignation() {
         return designation;
     }
+
+    public List<String> getCertifications() {
+        return certifications;
+    }
+
+    public void setCertifications(List<String> certifications) {
+        this.certifications = certifications;
+    }
+
+
+//    public ArrayList<String> getCertifications() {
+//        return certifications;
+//    }
+//
+//    public void setCertifications(ArrayList<String> certifications) {
+//        this.certifications = certifications;
+//    }
 
     public String getRole() {
         return role;
@@ -85,13 +108,13 @@ public class Emp {
         this.org_level = org_level;
     }
 
-    public String getCertifications() {
-        return certifications;
-    }
-
-    public void setCertifications(String certifications) {
-        this.certifications = certifications;
-    }
+//    public String getCertifications() {
+//        return certifications;
+//    }
+//
+//    public void setCertifications(String certifications) {
+//        this.certifications = certifications;
+//    }
 
     public String getProjects() {
         return projects;
