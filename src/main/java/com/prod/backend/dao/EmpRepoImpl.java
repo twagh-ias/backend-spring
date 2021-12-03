@@ -1,8 +1,9 @@
 package com.prod.backend.dao;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.prod.backend.model.Emp;
 import com.prod.backend.rowmapper.EmpMapper;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -124,23 +125,51 @@ public class EmpRepoImpl implements EmpRepo {
         return jdbcTemplate.update(update_query,params,types);
     }
 
-    @Override
-    public HashMap<Integer, String> validate(String required_skill, int min_req_rating, int complexity) {
-        String validate_query = "select e.e_id,e.employee_name, e.slack_time,u.p_skills,u.a_skills,u.a_self_rating,u.p_manager_rating" +
-                " from employee as e,user_skills as u where e.e_id=u.e_id and (u.p_skills=? or u.a_skills=?) " +
-                "and (u.a_self_rating>=? or u.p_manager_rating>=?) " +
-                "and (e.slack_time>=?)";
-        Object[] params = {required_skill,required_skill, min_req_rating,min_req_rating, complexity};
-        int[] types = {Types.VARCHAR,Types.VARCHAR,Types.INTEGER, Types.INTEGER, Types.INTEGER};
-        HashMap<Integer,String> hashMap=jdbcTemplate.query(validate_query, params, types, (ResultSet rs) -> {
-            HashMap<Integer, String> hmap = new HashMap<>();
-            while (rs.next()) {
-                String details = rs.getInt("e_id") + "," + rs.getString("employee_name")+ ","+rs.getString("slack_time")+","+rs.getString("p_skills")+","+rs.getString("a_skills")+","+rs.getString("a_self_rating")+","+rs.getString("p_manager_rating");
+//    @Override
+//    public HashMap<Integer, String> validate(String required_skill, int min_req_rating, int complexity) {
+//        String validate_query = "select e.e_id,e.employee_name, e.slack_time,u.p_skills,u.a_skills,u.a_self_rating,u.p_manager_rating" +
+//                " from employee as e,user_skills as u where e.e_id=u.e_id and (u.p_skills=? or u.a_skills=?) " +
+//                "and (u.a_self_rating>=? or u.p_manager_rating>=?) " +
+//                "and (e.slack_time>=?)";
+//        Object[] params = {required_skill,required_skill, min_req_rating,min_req_rating, complexity};
+//        int[] types = {Types.VARCHAR,Types.VARCHAR,Types.INTEGER, Types.INTEGER, Types.INTEGER};
+//        HashMap<Integer,String> hashMap=jdbcTemplate.query(validate_query, params, types, (ResultSet rs) -> {
+//            HashMap<Integer, String> hmap = new HashMap<>();
+//            while (rs.next()) {
 //                String details = rs.getInt("e_id") + "," + rs.getString("employee_name")+ ","+rs.getString("slack_time")+","+rs.getString("p_skills")+","+rs.getString("a_skills")+","+rs.getString("a_self_rating")+","+rs.getString("p_manager_rating");
-                hmap.put(rs.getInt("e_id"), details);
-            }
-            return hmap;
-        });
+////                String details = rs.getInt("e_id") + "," + rs.getString("employee_name")+ ","+rs.getString("slack_time")+","+rs.getString("p_skills")+","+rs.getString("a_skills")+","+rs.getString("a_self_rating")+","+rs.getString("p_manager_rating");
+//                hmap.put(rs.getInt("e_id"), details);
+//            }
+//            return hmap;
+//        });
+
+        @Override
+        public String validate(String required_skill, int min_req_rating, int complexity) {
+            String validate_query = "select e.e_id,e.employee_name, e.slack_time,u.p_skills,u.a_skills,u.a_self_rating,u.p_manager_rating" +
+                    " from employee as e,user_skills as u where e.e_id=u.e_id and (u.p_skills=? or u.a_skills=?) " +
+                    "and (u.a_self_rating>=? or u.p_manager_rating>=?) " +
+                    "and (e.slack_time>=?)";
+            Object[] params = {required_skill,required_skill, min_req_rating,min_req_rating, complexity};
+            int[] types = {Types.VARCHAR,Types.VARCHAR,Types.INTEGER, Types.INTEGER, Types.INTEGER};
+            ArrayList<String> arrlist=jdbcTemplate.query(validate_query, params, types, (ResultSet rs) -> {
+                ArrayList<String> hmap = new ArrayList<>();
+                while (rs.next()) {
+//                    String details = rs.getInt("e_id") + "," + rs.getString("employee_name")+ ","+rs.getString("slack_time")+","+rs.getString("p_skills")+","+rs.getString("a_skills")+","+rs.getString("a_self_rating")+","+rs.getString("p_manager_rating");
+                    String details = rs.getString("employee_name")+ ","+rs.getString("slack_time")+","+rs.getString("p_skills")+","+rs.getString("a_skills")+","+rs.getString("a_self_rating")+","+rs.getString("p_manager_rating");
+                    hmap.add(details);
+                }
+                return hmap;
+            });
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            Gson gson = gsonBuilder.create();
+            String JSONObject1 = gson.toJson(arrlist);
+            System.out.println(JSONObject1);
+            return JSONObject1;
+//            return arrlist;
+
+//        Object[] aa =hashMap.values().toArray();
+//        System.out.printf(String.valueOf(aa));
+
 //        JSONObject json = new JSONObject(hashMap);
 //        System.out.println(json);
 //        //get one key
@@ -149,8 +178,6 @@ public class EmpRepoImpl implements EmpRepo {
 //
 //        //get one value
 //        String value = hashMap.entrySet().stream().findFirst().get().getValue();
-//        System.out.println("Value: " + value);
-        return hashMap;
-
+//
     }
 }
