@@ -21,7 +21,8 @@ public class EmpMapper implements RowMapper<Emp> {
         e.setTotal_exp(rs.getString("total_exp"));
         e.setAd_tech_exp(rs.getString("ad_tech_exp"));
         e.setSlack_time(rs.getString("slack_time"));
-        e.setCertifications((ArrayList<String>) rs.getArray("certifications"));
+        //e.setCertifications((ArrayList<String>) rs.getArray("certifications"));
+        //e.setCertifications((ArrayList<String>) rs.getArray("certifications"));
         e.setRole(rs.getString("role"));
         e.setProjects(rs.getString("projects"));
         return e;

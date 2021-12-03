@@ -2,17 +2,16 @@ package com.prod.backend.dao;
 
 import com.prod.backend.model.Emp;
 import com.prod.backend.rowmapper.EmpMapper;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.ResultSet;
 import java.sql.Types;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Repository
 public class EmpRepoImpl implements EmpRepo {
@@ -49,7 +48,7 @@ public class EmpRepoImpl implements EmpRepo {
                     e.setTotal_exp(rs.getString("total_exp"));
                     e.setAd_tech_exp(rs.getString("ad_tech_exp"));
                     e.setSlack_time(rs.getString("slack_time"));
-                    e.setCertifications(Collections.singletonList(rs.getString("certifications")));
+                    //e.setCertifications(Collections.singletonList(rs.getString("certifications")));
                     //e.setCertifications((ArrayList<String>) rs.getArray("certifications"));
                     e.setRole(rs.getString("role"));
                     e.setProjects(rs.getString("projects"));
@@ -59,28 +58,28 @@ public class EmpRepoImpl implements EmpRepo {
 
     @Override
     public List<Emp> findAllEmp(){
-        List<Emp> empall=jdbcTemplate.query(get_emp_all,new EmpMapper());;
+        List<Emp> empall=jdbcTemplate.query(get_emp_all,new EmpMapper());
         return empall;
     }
 
     @Override
     public void save(Emp emp) {
-        String delim = ",";
-        StringBuilder sb = new StringBuilder();
-        int i = 0;
-        while (i < emp.getCertifications().size() - 1)
-        {
-            sb.append(emp.getCertifications().get(i));
-            sb.append(delim);
-            i++;
-        }
-        sb.append(emp.getCertifications().get(i));
-        cert = sb.toString();
-        System.out.println(cert);
+//        String delim = ",";
+//        StringBuilder sb = new StringBuilder();
+//        int i = 0;
+//        while (i < emp.getCertifications().size() - 1)
+//        {
+//            sb.append(emp.getCertifications().get(i));
+//            sb.append(delim);
+//            i++;
+//        }
+//        sb.append(emp.getCertifications().get(i));
+//        cert = sb.toString();
+//        System.out.println(cert);
 
 
         int[] types = {Types.VARCHAR, Types.VARCHAR, Types.VARCHAR,Types.VARCHAR, Types.VARCHAR, Types.VARCHAR,Types.VARCHAR, Types.VARCHAR, Types.VARCHAR,Types.VARCHAR, Types.VARCHAR, Types.VARCHAR};
-        Object[] args={emp.getEmployee_name(),emp.getTeam(),emp.getDesignation(),emp.getRole(),emp.getEmail(),emp.getOrg_level(),emp.getProjects(),emp.getDepartment(),emp.getTotal_exp(),emp.getAd_tech_exp(),emp.getSlack_time(),cert};
+        Object[] args={emp.getEmployee_name(),emp.getTeam(),emp.getDesignation(),emp.getRole(),emp.getEmail(),emp.getOrg_level(),emp.getProjects(),emp.getDepartment(),emp.getTotal_exp(),emp.getAd_tech_exp(),emp.getSlack_time(),emp.getCertifications()};
         String insert_query_skills="insert into user_skills(employee_name) values("+"'"+emp.getEmployee_name()+"'"+")";
           jdbcTemplate.update(insert_query,args,types);
           jdbcTemplate.update(insert_query_skills);
@@ -107,21 +106,51 @@ public class EmpRepoImpl implements EmpRepo {
 
     @Override
     public int update(Emp emp,long e_id) {
-        String delim = ",";
-        StringBuilder sb = new StringBuilder();
-        int i = 0;
-        while (i < emp.getCertifications().size() - 1)
-        {
-            sb.append(emp.getCertifications().get(i));
-            sb.append(delim);
-            i++;
-        }
-        sb.append(emp.getCertifications().get(i));
-        cert = sb.toString();
-        System.out.println(cert);
+//        String delim = ",";
+//        StringBuilder sb = new StringBuilder();
+//        int i = 0;
+//        while (i < emp.getCertifications().size() - 1)
+//        {
+//            sb.append(emp.getCertifications().get(i));
+//            sb.append(delim);
+//            i++;
+//        }
+//        sb.append(emp.getCertifications().get(i));
+//        cert = sb.toString();
+//        System.out.println(cert);
 
-        Object[] params = {emp.getEmployee_name(),emp.getEmail(),emp.getTotal_exp(),emp.getAd_tech_exp(),emp.getSlack_time(),cert,emp.getTeam(),emp.getDesignation(),emp.getRole(),emp.getOrg_level(),emp.getProjects(),emp.getDepartment(),e_id};
+        Object[] params = {emp.getEmployee_name(),emp.getEmail(),emp.getTotal_exp(),emp.getAd_tech_exp(),emp.getSlack_time(),emp.getCertifications(),emp.getTeam(),emp.getDesignation(),emp.getRole(),emp.getOrg_level(),emp.getProjects(),emp.getDepartment(),e_id};
         int[] types = {Types.VARCHAR, Types.VARCHAR, Types.VARCHAR,Types.VARCHAR, Types.VARCHAR, Types.VARCHAR,Types.VARCHAR, Types.VARCHAR, Types.VARCHAR,Types.VARCHAR, Types.VARCHAR, Types.VARCHAR,Types.LONGVARCHAR};
         return jdbcTemplate.update(update_query,params,types);
+    }
+
+    @Override
+    public HashMap<Integer, String> validate(String required_skill, int min_req_rating, int complexity) {
+        String validate_query = "select e.e_id,e.employee_name, e.slack_time,u.p_skills,u.a_skills,u.a_self_rating,u.p_manager_rating" +
+                " from employee as e,user_skills as u where e.e_id=u.e_id and (u.p_skills=? or u.a_skills=?) " +
+                "and (u.a_self_rating>=? or u.p_manager_rating>=?) " +
+                "and (e.slack_time>=?)";
+        Object[] params = {required_skill,required_skill, min_req_rating,min_req_rating, complexity};
+        int[] types = {Types.VARCHAR,Types.VARCHAR,Types.INTEGER, Types.INTEGER, Types.INTEGER};
+        HashMap<Integer,String> hashMap=jdbcTemplate.query(validate_query, params, types, (ResultSet rs) -> {
+            HashMap<Integer, String> hmap = new HashMap<>();
+            while (rs.next()) {
+                String details = rs.getInt("e_id") + "," + rs.getString("employee_name")+ ","+rs.getString("slack_time")+","+rs.getString("p_skills")+","+rs.getString("a_skills")+","+rs.getString("a_self_rating")+","+rs.getString("p_manager_rating");
+//                String details = rs.getInt("e_id") + "," + rs.getString("employee_name")+ ","+rs.getString("slack_time")+","+rs.getString("p_skills")+","+rs.getString("a_skills")+","+rs.getString("a_self_rating")+","+rs.getString("p_manager_rating");
+                hmap.put(rs.getInt("e_id"), details);
+            }
+            return hmap;
+        });
+//        JSONObject json = new JSONObject(hashMap);
+//        System.out.println(json);
+//        //get one key
+//        Integer key = hashMap.entrySet().stream().findFirst().get().getKey();
+//        System.out.println("Key: " + key);
+//
+//        //get one value
+//        String value = hashMap.entrySet().stream().findFirst().get().getValue();
+//        System.out.println("Value: " + value);
+        return hashMap;
+
     }
 }

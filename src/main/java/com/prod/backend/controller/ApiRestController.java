@@ -16,6 +16,7 @@ import org.springframework.web.HttpMediaTypeNotAcceptableException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.constraints.Null;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -112,6 +113,11 @@ public class ApiRestController{
 //        } else {
 //            new ResponseEntity<String>("User successfully deleted", HttpStatus.OK);
 //
+    }
+
+    @PostMapping("/validateSkillRoadmap")
+    public HashMap<Integer,String> validate(String required_skill, int min_req_rating, int complexity){
+        return employeeService.validate(required_skill,min_req_rating,complexity);
     }
 
     @PutMapping("/updateEmp/{id}")
