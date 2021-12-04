@@ -145,13 +145,19 @@ public class EmpRepoImpl implements EmpRepo {
 
         @Override
         public String validate(String required_skill, int min_req_rating, int complexity) {
-            String validate_query = "select e.e_id,e.employee_name, e.slack_time,u.p_skills,u.a_skills,u.a_self_rating,u.p_manager_rating" +
-                    " from employee as e,user_skills as u where e.e_id=u.e_id and (u.p_skills=? or u.a_skills=?) " +
-                    "and (u.a_self_rating>=? or u.p_manager_rating>=?) " +
+//            String validate_query = "select e.e_id,e.employee_name, e.slack_time,u.p_skills,u.a_skills,u.a_self_rating,u.p_manager_rating" +
+//                    " from employee as e,user_skills as u where e.e_id=u.e_id and (u.p_skills=? or u.a_skills=?) " +
+//                    "and (u.a_self_rating>=? or u.p_manager_rating>=?) " +
+//                    "and (e.slack_time>=?)";
+
+            String validate_query2="select e.e_id,e.employee_name, e.slack_time,u.p_skills,u.a_skills,u.a_self_rating,u.p_manager_rating " +
+                    "from employee as e,user_skills as u " +
+                    "where e.e_id=u.e_id and (u.p_skills=? or u.a_skills=?) " +
+                    "and (u.a_self_rating >= ? and u.p_manager_rating>=?) " +
                     "and (e.slack_time>=?)";
             Object[] params = {required_skill,required_skill, min_req_rating,min_req_rating, complexity};
             int[] types = {Types.VARCHAR,Types.VARCHAR,Types.INTEGER, Types.INTEGER, Types.INTEGER};
-            ArrayList<String> arrlist=jdbcTemplate.query(validate_query, params, types, (ResultSet rs) -> {
+            ArrayList<String> arrlist=jdbcTemplate.query(validate_query2, params, types, (ResultSet rs) -> {
                 ArrayList<String> hmap = new ArrayList<>();
                 while (rs.next()) {
 //                    String details = rs.getInt("e_id") + "," + rs.getString("employee_name")+ ","+rs.getString("slack_time")+","+rs.getString("p_skills")+","+rs.getString("a_skills")+","+rs.getString("a_self_rating")+","+rs.getString("p_manager_rating");
@@ -166,18 +172,5 @@ public class EmpRepoImpl implements EmpRepo {
             System.out.println(JSONObject1);
             return JSONObject1;
 //            return arrlist;
-
-//        Object[] aa =hashMap.values().toArray();
-//        System.out.printf(String.valueOf(aa));
-
-//        JSONObject json = new JSONObject(hashMap);
-//        System.out.println(json);
-//        //get one key
-//        Integer key = hashMap.entrySet().stream().findFirst().get().getKey();
-//        System.out.println("Key: " + key);
-//
-//        //get one value
-//        String value = hashMap.entrySet().stream().findFirst().get().getValue();
-//
     }
 }
