@@ -6,6 +6,7 @@ import com.prod.backend.model.Emp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -41,7 +42,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     }
 
     @Override
-    public String validate(String required_skill, int min_req_rating, int complexity) {
+    public HashMap<Integer, String> validate(String required_skill, int min_req_rating, int complexity) {
         return empRepo.validate(required_skill,min_req_rating,complexity);
     }
 }
